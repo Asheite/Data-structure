@@ -1,4 +1,4 @@
-// DS1ex5 27
+// DS1ex5 27 11027257 ¬x·y©g 10927260 ¼B©v¿Î 
 #include <iostream>
 #include <fstream>
 #include <vector>
@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <algorithm>
+#include <typeinfo>
 using namespace std;
 
 class ClassList {
@@ -18,11 +19,15 @@ class ClassList {
 	vector<collegeType> cSet; // data in a file
 	string fileNo; // file Number ex: 501 502...
 	string sortName; // name of sorting algorithm
-	clock_t bTime; // bubble sort time
-	clock_t sTime; // select sort time
-	clock_t mTime; // merge sort time
-	clock_t qTime; // quick sort time
-	clock_t rTime; // radix sort time
+	int bTime; // bubble sort time
+	int sTime; // select sort time
+	int mTime; // merge sort time
+	int qTime; // quick sort time
+	int rTime; // radix sort time
+	
+	void setbTime( int time ) {
+		bTime = time;
+	}
 		
 	void swap( collegeType& x, collegeType& y ) {
 		// change two elements in  cSet
@@ -77,8 +82,10 @@ class ClassList {
 				swap( cSet[pre], cSet[i] );
 			} // if
 		} // for
-		
-		swap( cSet[pre+1], cSet[last] );
+
+		collegeType tmp = cSet[pre+1];
+		cSet[pre+1] = cSet[last];
+		cSet[last] = tmp;
 		return ( pre + 1 );
 	} // partition()
 	
@@ -200,7 +207,7 @@ class ClassList {
 			
 			End = clock();
 			sortName = "select_sort";
-			sTime = Begin - End;
+			sTime = End - Begin;
 		} // ssort()
 		
 		void bsort() {
@@ -218,7 +225,7 @@ class ClassList {
 			
 			End = clock();
 			sortName = "bubble_sort";
-			bTime = Begin - End;
+			bTime = End - Begin;
 		} // bsort()
 		
 		void msort( int first, int last ) {
@@ -232,7 +239,7 @@ class ClassList {
 				merge( first, mid, last );	
 			} // if
 			End = clock();
-			mTime = Begin - End;
+			mTime = End - Begin;
 			sortName = "merge_sort";
 		} // msort()
 		
@@ -249,8 +256,7 @@ class ClassList {
 			} // if
 			
 			End = clock();
-			qTime = Begin - End;
-			End = clock();
+			qTime = End - Begin;
 			sortName = "quick_sort";
 		} // qsort()
 		
@@ -280,7 +286,7 @@ class ClassList {
 			} // for
 			reverse( cSet.begin(), cSet.end() );
 			End = clock();
-			rTime = Begin - End;
+			rTime = End - Begin;
 			sortName = "radix_sort";
 		} // rsort()
 		
@@ -356,8 +362,8 @@ int main( void ) {
  					cl.saveF( id );
  					cl.ssort();
  					cl.saveF( id );
- 					cl.clearUp();
  					cl.show1Time();
+ 					cl.clearUp();
  				} // if 
  				break;
  			
@@ -369,8 +375,9 @@ int main( void ) {
  					cl.saveF( id );
  					cl.qsort( first, last );
  					cl.saveF( id );
- 					cl.clearUp();
  					cl.show2Time(); 
+ 					cl.clearUp();
+
 				 } // if
 				break;
 				
@@ -380,8 +387,9 @@ int main( void ) {
 					int last = cl.getSize() - 1;
 					cl.rsort( first, last );
 					cl.saveF( id );
-					cl.clearUp();
 					cl.show3Time();
+					cl.clearUp();
+					
 				} // if
 				break;
 
